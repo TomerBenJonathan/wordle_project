@@ -4,6 +4,55 @@ import {useEffect} from 'react';
 
 export function Keyboard(props){
 
+    useEffect(() => {
+        
+        if (props.arrayCharsInRow.length===5)
+        {
+            paintChars();
+        }
+    }); 
+    
+
+    const getKeyboardButton = (character) => {
+        let keyboardButtons = Array.from(document.getElementsByClassName("keyboard-key"));
+        return keyboardButtons.find(keyboardButton => keyboardButton.value === character);
+    }
+
+
+    const paintChars = () => {
+
+       
+        let secretWord = props.secretWords[props.currentSecretWordIndex];
+
+        props.arrayCharsInRow.forEach(function(currentChar,i) {
+          
+          
+          
+          let keyboardButton = getKeyboardButton(currentChar);
+          
+          if (currentChar === secretWord.charAt(i))
+          {
+            keyboardButton.style.color = "white";
+            keyboardButton.style.backgroundColor = "green";
+          }
+          else if (secretWord.includes(currentChar)) {
+
+            if (keyboardButton.style.backgroundColor !== "green")
+            {
+                keyboardButton.style.color = "black";
+                keyboardButton.style.backgroundColor = "yellow";
+            }
+          }
+          else
+          {
+            keyboardButton.style.color = "white";
+            keyboardButton.style.backgroundColor = "gray";
+          }
+        });
+  
+    }
+  
+
 return (
 
     <div>
@@ -36,7 +85,7 @@ return (
       </div>
 
       <div className="third-row">
-      <button className="keyboard-key" onClick={() => props.onClickedChar("q")} value="Enter">Enter</button>
+      <button className="keyboard-key"  value="Enter">Enter</button>
       <button className="keyboard-key" onClick={() => props.onClickedChar("Z")} value="Z">z</button>
       <button className="keyboard-key" onClick={() => props.onClickedChar("X")} value="X">x</button>
       <button className="keyboard-key" onClick={() => props.onClickedChar("C")} value="C">c</button>
@@ -48,7 +97,7 @@ return (
       </div>
       
       
-      {/* <h3>{proarrayCharsInRow}</h3> */}
+      
       </div>
       </div>
 )

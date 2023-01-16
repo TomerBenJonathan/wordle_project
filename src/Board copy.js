@@ -35,95 +35,144 @@ export function Board(props){
   const countCharInString = (char, str) => str.split(char).length;
   
 
- 
-  const changeTooManyYellowsToGray = () => {
-      
+  // // Examples:
+  // // 1) secretWord = broom 
+  // //    arrayCharsInRow = oxo    ==>    yellow, gray, green
+  // //    arrayCharsInRow = oxoo    ==>   gray, gray, green, green
+  // //
+  // // 2) secretWord = broom 
+  // //    arrayCharsInRow = xyooo   ==>   gray, gray, green, green, gray
+  // const changeTooManyYellowsToGray = (arrayCharsInRow, secretWord, rowColors) => {
+  //     console.log( "===", "calling changeTooManyYellowsToGray()");
+  //     let boxesRow = Array.from(document.getElementsByClassName("line-" + (props.currentRow+1)));
+  //     arrayCharsInRow.forEach(function(currentChar,i) {
+  //         console.log("=== boxesRow[i] bgcolor=", boxesRow[i].style.backgroundColor);
+  //         if (boxesRow[i].style.backgroundColor === "yellow")
+  //         {
+  //             let countCharInGuessedRow = countCharInString(currentChar, arrayCharsInRow.join(""));
+  //             let countCharInSecretWord = countCharInString(currentChar, secretWord);
 
-      const secretWord = props.secretWords[props.currentSecretWordIndex];
-      const currentRow = props.currentRow;
-      let arrayCharsInRowTemp = [...props.arrayCharsInRow];
+  //             console.log("==== yellow:  i=", i, " countCharInGuessedRow=", countCharInGuessedRow, " countCharInSecretWord=", countCharInSecretWord);
 
-      
-      let cellsColorTemp = [...cellsColor];
-
-      arrayCharsInRowTemp.forEach(function(currentChar,i) {
-          
-          
-          
-          if (cellsColor[currentRow][i] === "yellow")
-          {
-              let countCharInGuessedRow = countCharInString(currentChar, arrayCharsInRowTemp.join(""));
-              let countCharInSecretWord = countCharInString(currentChar, secretWord);
-
-            
-
-              if (countCharInGuessedRow > countCharInSecretWord)
-              {
-                cellsColorTemp[currentRow][i] = "gray";
-              }
-
-              arrayCharsInRowTemp[i] = "$";
-          }
-      });
-
-      setCellsColor(cellsColorTemp);
-  }
+  //             if (countCharInGuessedRow > countCharInSecretWord)
+  //             {
+  //               boxesRow[i].style.color = "white";
+  //               boxesRow[i].style.backgroundColor = "gray";
+  //             }
+  //         }
+  //     });
+  // }
  
   const paintCells = () => {
 
+  //     let boxesRow = Array.from(document.getElementsByClassName("line-" + (props.currentRow+1)));
+
         let secretWord = props.secretWords[props.currentSecretWordIndex];
+
+  //     let rowColors = ["GRAY", "GRAY", "GRAY", "GRAY", "GRAY"];
+
         let cellsColorTemp = [...cellsColor];
 
         props.arrayCharsInRow.forEach(function(currentChar,i) {
+  //       boxesRow[i].innerHTML = currentChar;
+            //cellsValueTemp[props.currentRow][i] = currentChar;
+
+  //       // console.log(value, );
+  //       //let secretWord = props.secretWords[props.currentSecretWordIndex];
 
         if (currentChar === secretWord.charAt(i))
         {
+          //boxesRow[i].style.color = "green";
+          //rowColors[i] = "GREEN";
           cellsColorTemp[props.currentRow][i] = "green";
         }
         else if (secretWord.includes(currentChar)) {
+
+            //boxesRow[i].style.color = "yellow";
+            //rowColors[i] = "YELLOW";
             cellsColorTemp[props.currentRow][i] = "yellow";
         }
         else
         {
+          //boxesRow[i].style.color = "gray";
+          //rowColors[i] = "GRAY";
           cellsColorTemp[props.currentRow][i] = "gray";
         }
        });
 
-       changeTooManyYellowsToGray();
+  //     changeTooManyYellowsToGray(props.arrayCharsInRow, secretWord, rowColors);
 
   }
 
   useEffect(() => {
+      console.log("In Board useEffect. Props = ", props);
+      // console.log("line-" + props.currentRow+1, typeof(props.currentRow));
+      // let currentRowStr = props.currentRow.toString();
+      // let currentRow = parseInt(currentRowStr, 10) ;
+      // console.log("props.currentRow=", props.currentRow);
       
+      
+      //let boxesRow = Array.from(document.getElementsByClassName("line-" + (props.currentRow+1)));
       
       let cellsValueTemp = [...cellsValue];
       let cellsBorderColorTemp = [...cellsBorderColor];
       
-      
+      //boxesRow.forEach(function(value,i)box => box.innerHTML="x");
+      console.log("props.currentRow=",props.currentRow);
+      console.log("props.arrayCharsInRow.length=", props.arrayCharsInRow.length);
       if (props.arrayCharsInRow.length === 0)
       {
+        //boxesRow[0].style.border = "2px solid red";
         cellsBorderColorTemp[props.currentRow][0] = "red";
       }
 
+      // props.arrayCharsInRow.forEach(function(currentChar,i) {
+      //   boxesRow[i].innerHTML = currentChar;
+
       props.arrayCharsInRow.forEach(function(currentChar,i) {
+           //boxesRow[i].innerHTML = currentChar;
+           
+           cellsValueTemp[props.currentRow][i] = currentChar;
 
-        cellsValueTemp[props.currentRow][i] = currentChar;
 
+      //   // let secretWord = props.secretWords[props.currentSecretWordIndex];
+
+      //   // if (currentChar === secretWord.charAt(i))
+      //   // {
+      //   //   boxesRow[i].style.color = "green";
+      //   // }
+      //   // else if (secretWord.includes(currentChar)) {
+
+      //   //   boxesRow[i].style.color = "yellow";
+          
+      //   // }
+      //   // else
+      //   // {
+      //   //   boxesRow[i].style.color = "gray";
+      //   // }
+
+      //   boxesRow[i].style.border = "2px solid #301ad1";
       let cellsBorderColorTemp = [...cellsBorderColor];
       cellsBorderColorTemp[props.currentRow][i] = "#301ad1";
+      
 
         if (i<4)
         {
+          //boxesRow[i+1].style.border = "2px solid red"
           let cellsBorderColorTemp = [...cellsBorderColor];
           cellsBorderColorTemp[props.currentRow][i+1] = "red";
         }
         else if (i===4 && props.currentRow<=4)
         {
           paintCells();
+          //setTimeout(()=>alert("Line is done"), 50);
+          
         }
 
         if (i===4 && props.currentRow<4)
         {
+          //let nextBoxesRow = Array.from(document.getElementsByClassName("line-" + (props.currentRow+2)));
+          //nextBoxesRow[0].style.border = "2px solid red"
           let cellsBorderColorTemp = [...cellsBorderColor];
           cellsBorderColorTemp[props.currentRow+1][0] = "red";
         }
@@ -138,7 +187,7 @@ export function Board(props){
   return(
     <div className="game-board">
         <div className="game-board-inner">
-          
+          <div>{props.arrayCharsInRow}</div>  
           <div className="game-row">
             <div className="game-box line-1 col-2" style={{color: cellsColor[0][0], border: "2px solid " + cellsBorderColor[0][0]}}>{cellsValue[0][0]}</div>
             <div className="game-box line-1 col-2" style={{color: cellsColor[0][1], border: "2px solid " + cellsBorderColor[0][1]}}>{cellsValue[0][1]}</div>
